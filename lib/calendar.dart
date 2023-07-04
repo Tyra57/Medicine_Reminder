@@ -1,6 +1,7 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:medicinereminder/medicationpage.dart';
 
 class CalendarPage extends StatelessWidget {
   CalendarPage({Key? key});
@@ -74,6 +75,16 @@ class CalendarPage extends StatelessWidget {
               ),
             ),
           ),
+          Container(
+            margin: const EdgeInsets.only(top: 10, left: 20),
+            child: const Text(
+              'Medicines',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+          ),
         ],
       ),
       floatingActionButton: SizedBox(
@@ -81,7 +92,13 @@ class CalendarPage extends StatelessWidget {
         height: 70,
         child: FloatingActionButton(
           onPressed: () {
-            // Navigate to the other page
+           Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    MedicationPage(), 
+              ),
+            );
           },
           backgroundColor: Colors.red[400],
           shape: const CircleBorder(),
