@@ -4,17 +4,17 @@ import 'package:intl/intl.dart';
 import 'package:medicinereminder/medicationpage.dart';
 
 class CalendarPage extends StatelessWidget {
-  CalendarPage({Key? key});
-
+  const CalendarPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.red,
         actions: [
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.notifications,
-              color: Colors.red[400],
+              color: Colors.white,
             ),
             onPressed: () {
               // Add smthing soon
@@ -96,7 +96,7 @@ class CalendarPage extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    MedicationPage(), 
+                    const MedicationPage(), 
               ),
             );
           },

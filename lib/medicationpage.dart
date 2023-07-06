@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medicinereminder/displaypage.dart';
+//import 'package:medicinereminder/displaypage.dart';
 import 'package:medicinereminder/input_field.dart';
 
 class MedicationPage extends StatefulWidget {
@@ -14,6 +14,7 @@ class _MedicationPageState extends State<MedicationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.red,
         title: const Text('Medicine Details',
         style: TextStyle(
           fontSize: 18,
@@ -22,7 +23,7 @@ class _MedicationPageState extends State<MedicationPage> {
       ),
       body: Container(
         padding: const EdgeInsets.only(left: 20, right: 20),
-        child: Column(
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InputField(title: "Medication Name", hint: "Enter medication name"),
