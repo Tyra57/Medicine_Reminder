@@ -17,11 +17,11 @@ class _MedicationPageState extends State<MedicationPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red[400],
-        title: const Text(
-          'Medicine Details',
-          style: TextStyle(
-              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-        ),
+        title: const Text('Medicine Details',
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold
+        ),),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(left: 20, right: 20),

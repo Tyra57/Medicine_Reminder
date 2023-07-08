@@ -4,13 +4,12 @@ import 'package:medicinereminder/calendar.dart';
 // THIS PAGE IS DONE BY WANI AND SUPPOSED TO BE NEXT AFTER LOGIN AND REGISTRATION PAGE
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key? key});
-
+  const SplashScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.red,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -65,7 +64,7 @@ class SplashScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CalendarPage(),
+                      builder: (context) => const CalendarPage(),
                     ),
                   );
                 },
