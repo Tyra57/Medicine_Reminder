@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medicinereminder/calendar.dart';
 
+// THIS PAGE IS DONE BY WANI AND SUPPOSED TO BE NEXT AFTER LOGIN AND REGISTRATION PAGE
+
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key});
 

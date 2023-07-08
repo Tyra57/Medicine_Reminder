@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medicinereminder/medicationpage.dart';
 
+// THIS PAGE IS DONE BY WANI AND INTENDED TO DISPLAY THE DATA
+
 class CalendarPage extends StatelessWidget {
   CalendarPage({Key? key});
 
@@ -96,7 +98,7 @@ class CalendarPage extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    MedicationPage(), 
+                    const MedicationPage(), 
               ),
             );
           },
