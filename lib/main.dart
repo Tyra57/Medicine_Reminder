@@ -1,7 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:medicinereminder/auth.dart';
 import 'package:medicinereminder/login.dart';
 import 'package:medicinereminder/register.dart';
+import 'package:medicinereminder/widget_tree.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -24,7 +27,16 @@ class MyApp extends StatelessWidget {
           bodyMedium: TextStyle(color: Colors.red),
         ),
       ),
-      home: const HomePage(),
+      home: StreamBuilder(
+        stream: Auth().authStateChanges,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const WidgetTree();
+          } else {
+            return const HomePage();
+          }
+        },
+      ),
     );
   }
 }
@@ -40,7 +52,7 @@ class HomePage extends StatelessWidget {
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 70),
-          color:  Color.fromARGB(255, 255, 255, 255),
+          color: const Color.fromARGB(255, 255, 255, 255),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,7 +66,7 @@ class HomePage extends StatelessWidget {
                       fontSize: 30,
                     ),
                   ),
-                  SizedBox( 
+                  SizedBox(
                     height: 20,
                   ),
                   Text(

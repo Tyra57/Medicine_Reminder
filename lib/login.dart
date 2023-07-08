@@ -1,10 +1,45 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:medicinereminder/auth.dart';
 import 'package:medicinereminder/register.dart';
 import 'package:medicinereminder/splashscreen.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final Auth _auth = Auth();
+
+  String? errorMessage = '';
+
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
+
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: _controllerEmail.text,
+        password: _controllerPassword.text,
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SplashScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
+
+  Widget _errorMessage() {
+    return Text(errorMessage == '' ? '' : 'Humm ? $errorMessage');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +47,7 @@ class LoginPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.red, // Set the app bar background color to red
+        backgroundColor: Colors.red,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -35,20 +70,23 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Column(
+                  const Column(
                     children: <Widget>[
-                      const Text(
+                      Text(
                         "Login",
-                        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 20,
                       ),
                       Text(
                         "Login to your account",
                         style: TextStyle(
                           fontSize: 15,
-                          color: Colors.grey[700],
+                          color: Colors.grey,
                         ),
                       )
                     ],
@@ -57,8 +95,15 @@ class LoginPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Column(
                       children: <Widget>[
-                        inputFile(label: "Email", context: context),
-                        inputFile(label: "Password", obscureText: true, context: context)
+                        inputFile(
+                          label: "Email",
+                          controller: _controllerEmail,
+                        ),
+                        inputFile(
+                          label: "Password",
+                          obscureText: true,
+                          controller: _controllerPassword,
+                        ),
                       ],
                     ),
                   ),
@@ -68,20 +113,13 @@ class LoginPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 1, left: 0.5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        border: const Border(
-                          //bottom: BorderSide(color: Colors.black),
-                          //top: BorderSide(color: Colors.black),
-                          //left: BorderSide(color: Colors.black),
-                          //right: BorderSide(color: Colors.black),
-                        ),
+                        border: const Border(),
                       ),
                       child: MaterialButton(
                         minWidth: double.infinity,
                         height: 50,
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const SplashScreen()));
-                        },
-                        color: Colors.red, // Set the button color to red
+                        onPressed: signInWithEmailAndPassword,
+                        color: Colors.red,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
@@ -103,10 +141,11 @@ class LoginPage extends StatelessWidget {
                       const Text("Don't have an account?"),
                       GestureDetector(
                         onTap: () {
-                          // Navigate to the sign-up page
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const SignupPage()),
+                            MaterialPageRoute(
+                              builder: (context) => const SignupPage(),
+                            ),
                           );
                         },
                         child: const Text(
@@ -127,39 +166,39 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-}
 
-//creating a widget for text field
-Widget inputFile({label, obscureText = false, required BuildContext context}) {
-  final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w600,
-          color: Colors.red, // Set the label text color to red
-        ),
-      ),
-      const SizedBox(
-        height: 5,
-      ),
-      TextField(
-        obscureText: obscureText,
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
+  Widget inputFile({
+    required String label,
+    bool obscureText = false,
+    required TextEditingController controller,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            color: Colors.red,
           ),
         ),
-      ),
-      const SizedBox(height: 10),
-    ],
-  );
+        const SizedBox(height: 5),
+        TextField(
+          obscureText: obscureText,
+          controller: controller,
+          decoration: const InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+      ],
+    );
+  }
 }

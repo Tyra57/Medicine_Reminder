@@ -1,10 +1,29 @@
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:medicinereminder/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medicinereminder/calendar.dart';
+import 'package:medicinereminder/main.dart';
 
 // THIS PAGE IS DONE BY WANI AND SUPPOSED TO BE NEXT AFTER LOGIN AND REGISTRATION PAGE
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
+
+/*
+  final User? user = Auth().currentUser;
+
+  Future<void> signOut() async{
+    await Auth().signOut();
+  }
+
+
+  Widget _signOutButton(){
+    return ElevatedButton(
+      onPressed: signOut,
+      child: const Text('Sign Out'),
+    );
+  }
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +32,10 @@ class SplashScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // Add your navigation logic here
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
           },
         ),
       ),
@@ -79,6 +101,7 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
           ),
+        //  _signOutButton(),
         ],
       ),
     );

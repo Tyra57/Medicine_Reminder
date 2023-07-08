@@ -1,10 +1,47 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:medicinereminder/auth.dart';
 import 'package:medicinereminder/login.dart';
 
+class SignupPage extends StatefulWidget {
+  const SignupPage({Key? key}) : super(key: key);
 
-class SignupPage extends StatelessWidget {
-  const SignupPage({super.key});
+  @override
+  _SignupPageState createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final Auth _auth = Auth();
+
+  String? errorMessage = '';
+
+  final TextEditingController _controllerUsername = TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
+  final TextEditingController _controllerConfirmPassword =
+      TextEditingController();
+
+  Future<void> createUserWithEmailAndPassword() async {
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: _controllerEmail.text,
+        password: _controllerPassword.text,
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
+
+  Widget _errorMessage() {
+    return Text(errorMessage == '' ? '' : 'Humm ? $errorMessage');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +49,7 @@ class SignupPage extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.red, // Set the app bar background color to red
+        backgroundColor: Colors.red,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -30,7 +67,7 @@ class SignupPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 40),
           height: MediaQuery.of(context).size.height - 50,
           width: double.infinity,
-          color: const Color.fromARGB(255, 239, 220, 219), // Set the background color to red
+          color: const Color.fromARGB(255, 239, 220, 219),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -50,17 +87,31 @@ class SignupPage extends StatelessWidget {
                     "Create your account here",
                     style: TextStyle(
                       fontSize: 15,
-                      color: Colors.grey, // Set the text color to white
+                      color: Colors.grey,
                     ),
                   ),
                 ],
               ),
               Column(
                 children: <Widget>[
-                  inputFile(label: "Username", context: context),
-                  inputFile(label: "Email", context: context),
-                  inputFile(label: "Password", obscureText: true, context: context),
-                  inputFile(label: "Confirm Password", obscureText: true, context: context),
+                  inputFile(
+                    label: "Username",
+                    controller: _controllerUsername,
+                  ),
+                  inputFile(
+                    label: "Email",
+                    controller: _controllerEmail,
+                  ),
+                  inputFile(
+                    label: "Password",
+                    obscureText: true,
+                    controller: _controllerPassword,
+                  ),
+                  inputFile(
+                    label: "Confirm Password",
+                    obscureText: true,
+                    controller: _controllerConfirmPassword,
+                  ),
                 ],
               ),
               Container(
@@ -72,8 +123,8 @@ class SignupPage extends StatelessWidget {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 50,
-                  onPressed: () {},
-                  color: Colors.red, // Set the button color to red
+                  onPressed: createUserWithEmailAndPassword,
+                  color: Colors.red,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
@@ -96,7 +147,9 @@ class SignupPage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const LoginPage()),
+                        MaterialPageRoute(
+                          builder: (context) => const LoginPage(),
+                        ),
                       );
                     },
                     child: const Text(
@@ -116,37 +169,39 @@ class SignupPage extends StatelessWidget {
       ),
     );
   }
-}
 
-//creating a widget for text field
-Widget inputFile({label, obscureText = false, required BuildContext context}) {
-  final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w600,
-          color: Colors.red, // Set the label text color to white
-        ),
-      ),
-      const SizedBox(height: 5),
-      TextField(
-        obscureText: obscureText,
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
+  Widget inputFile({
+    required String label,
+    bool obscureText = false,
+    required TextEditingController controller,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            color: Colors.red,
           ),
         ),
-      ),
-      const SizedBox(height: 10),
-    ],
-  );
+        const SizedBox(height: 5),
+        TextField(
+          obscureText: obscureText,
+          controller: controller,
+          decoration: const InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+      ],
+    );
+  }
 }
