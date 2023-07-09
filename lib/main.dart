@@ -20,11 +20,11 @@ class MyApp extends StatelessWidget {
       title: 'Welcome',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: const Color.fromARGB(255, 239, 220, 219),
+        primaryColor: const Color(0xFFEF5350),
         hintColor: const Color.fromARGB(255, 239, 220, 219),
         scaffoldBackgroundColor: const Color.fromARGB(255, 239, 220, 219),
         textTheme: const TextTheme(
-          bodyMedium: TextStyle(color: Colors.red),
+          bodyMedium: TextStyle(color: Colors.black),
         ),
       ),
       home: StreamBuilder(
@@ -57,32 +57,32 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const Column(
+              Column(
                 children: <Widget>[
-                  Text(
+                  const Text(
                     "Welcome",
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                    ),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 35,
+                        color: Colors.black),
                   ),
-                  SizedBox(
-                    height: 20,
+                  const SizedBox(
+                    height: 10,
                   ),
                   Text(
                     "Medicine Reminder",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 15,
+                      color: Colors.grey[600],
+                      fontSize: 16,
                     ),
                   ),
                 ],
               ),
               Image.asset(
-                'assets/medicine.jpg',
-                width: 250,
-                height: 250,
+                'assets/pharmacist.jpg',
+                width: 300,
+                height: 300,
               ),
               Column(
                 children: <Widget>[
@@ -92,12 +92,13 @@ class HomePage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const LoginPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()),
                       );
                     },
                     color: Colors.white60,
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.white.withOpacity(0.8)),
+                      //side: BorderSide(color: Colors.white.withOpacity(0.8)),
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: const Text(
@@ -115,7 +116,8 @@ class HomePage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SignupPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const SignupPage()),
                       );
                     },
                     color: Colors.red,

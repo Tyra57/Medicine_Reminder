@@ -38,6 +38,16 @@ class _NextFormPageState extends State<NextFormPage> {
       initialDate: _selectedDate,
       firstDate: DateTime(2023),
       lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.red, 
+            colorScheme: const ColorScheme.light(
+                primary: Colors.red), 
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null && picked != _selectedDate) {
@@ -52,6 +62,7 @@ class _NextFormPageState extends State<NextFormPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red[400],
+        elevation: 0,
         title: const Text(
           'Medicine Details',
           style: TextStyle(
@@ -61,165 +72,171 @@ class _NextFormPageState extends State<NextFormPage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1.0,
-                ),
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    labelText: 'Frequency',
-                    hintText: 'Select medication frequency',
+      body: Container(
+        color: Colors.white,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
                   ),
-                  value: selectedFrequency,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedFrequency = newValue!;
-                    });
-                  },
-                  items: frequencyOptions.map((option) {
-                    return DropdownMenuItem<String>(
-                      value: option,
-                      child: Text(option),
-                    );
-                  }).toList(),
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
-              ),
-            ),
-            const SizedBox(height: 10.0),
-             Container(
-              margin: const EdgeInsets.only(top: 10),
-              child: const Text(
-                'Intake Time',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1.0,
-                ),
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Select intake time',
-                  ),
-                  value: selectedIntakeTime,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedIntakeTime = newValue!;
-                    });
-                  },
-                  items: intakeTimeOptions.map((option) {
-                    IconData icon;
-                    switch (option) {
-                      case 'Morning':
-                        icon = Icons.wb_sunny_outlined;
-                        break;
-                      case 'Evening':
-                        icon = Icons.cloud_outlined;
-                        break;
-                      case 'Night':
-                        icon = Icons.nights_stay_outlined;
-                        break;
-                      default:
-                        icon = Icons.access_time_outlined;
-                    }
-                    return DropdownMenuItem<String>(
-                      value: option,
-                      child: Row(
-                        children: [
-                          Icon(
-                            icon,
-                            size: 20,
-                            color: Colors.black
-                          ),
-                          const SizedBox(width: 8),
-                          Text(option),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-            InputField(
-                title: "Amount", hint: "Enter the quantity",
-                controller: amountController,
-                inputType: TextInputType.number,
-            ),
-            Stack(
-              alignment: Alignment.centerRight,
-              children: [
-                InputField(
-                  title: "Date",
-                  hint: DateFormat.yMd().format(_selectedDate),
-                ),
-                Positioned(
-                  right: 8.0,
-                  bottom: 4.0,
-                  child: IconButton(
-                    icon: const Icon(Icons.calendar_today_outlined),
-                    color: Colors.grey[600],
-                    onPressed: () {
-                      _selectDate(context);
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      labelText: 'Frequency',
+                      hintText: 'Select medication frequency',
+                      labelStyle: TextStyle(color: Colors.red)
+                    ),
+                    value: selectedFrequency,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedFrequency = newValue!;
+                      });
                     },
+                    items: frequencyOptions.map((option) {
+                      return DropdownMenuItem<String>(
+                        value: option,
+                        child: Text(option),
+                      );
+                    }).toList(),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 148.0),
-            Center(
-              child: SizedBox(
-                width: 160,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red[400],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
+              ),
+              const SizedBox(height: 10.0),
+               Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: const Text(
+                  'Intake Time',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Select intake time',
+                    ),
+                    value: selectedIntakeTime,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedIntakeTime = newValue!;
+                      });
+                    },
+                    items: intakeTimeOptions.map((option) {
+                      IconData icon;
+                      switch (option) {
+                        case 'Morning':
+                          icon = Icons.wb_sunny_outlined;
+                          break;
+                        case 'Evening':
+                          icon = Icons.cloud_outlined;
+                          break;
+                        case 'Night':
+                          icon = Icons.nights_stay_outlined;
+                          break;
+                        default:
+                          icon = Icons.access_time_outlined;
+                      }
+                      return DropdownMenuItem<String>(
+                        value: option,
+                        child: Row(
+                          children: [
+                            Icon(
+                              icon,
+                              size: 20,
+                              color: Colors.black
+                            ),
+                            const SizedBox(width: 8),
+                            Text(option),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              InputField(
+                  title: "Amount", hint: "Enter the quantity",
+                  controller: amountController,
+                  inputType: TextInputType.number,
+              ),
+              Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  InputField(
+                    title: "Date",
+                    hint: DateFormat.yMd().format(_selectedDate),
+                  ),
+                  Positioned(
+                    right: 8.0,
+                    bottom: 4.0,
+                    child: IconButton(
+                      icon: const Icon(Icons.calendar_today_outlined),
+                      color: Colors.grey[600],
+                      onPressed: () {
+                        _selectDate(context);
+                      },
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const DisplayPage(),
+                ],
+              ),
+              const SizedBox(height: 140.0),
+              Center(
+                child: SizedBox(
+                  width: 160,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red[400],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
-                    ); 
-                  },
-                  child: const Text(
-                    'Add',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DisplayPage(),
+                        ),
+                      ); 
+                    },
+                    child: const Text(
+                      'Add',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

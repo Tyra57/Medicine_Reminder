@@ -16,7 +16,6 @@ class _SignupPageState extends State<SignupPage> {
 
   String? errorMessage = '';
 
-  final TextEditingController _controllerUsername = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final TextEditingController _controllerConfirmPassword =
@@ -57,17 +56,16 @@ class _SignupPageState extends State<SignupPage> {
           icon: const Icon(
             Icons.arrow_back_ios,
             size: 20,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: SingleChildScrollView(
         child: Container(
+          color:Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 40),
           height: MediaQuery.of(context).size.height - 50,
           width: double.infinity,
-          color: const Color.fromARGB(255, 239, 220, 219),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -78,6 +76,7 @@ class _SignupPageState extends State<SignupPage> {
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black
                     ),
                   ),
                   SizedBox(
@@ -94,10 +93,6 @@ class _SignupPageState extends State<SignupPage> {
               ),
               Column(
                 children: <Widget>[
-                  inputFile(
-                    label: "Username",
-                    controller: _controllerUsername,
-                  ),
                   inputFile(
                     label: "Email",
                     controller: _controllerEmail,
@@ -142,7 +137,8 @@ class _SignupPageState extends State<SignupPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text("Already have an account?"),
+                  Text("Already have an account?",
+                  style: TextStyle(color: Colors.grey[600]),),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -183,7 +179,7 @@ class _SignupPageState extends State<SignupPage> {
           style: const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
-            color: Colors.red,
+            color: Colors.black,
           ),
         ),
         const SizedBox(height: 5),
