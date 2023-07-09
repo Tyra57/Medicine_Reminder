@@ -61,18 +61,19 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 50.0),
+            const SizedBox(height: 30.0),
             Padding(
-              padding: const EdgeInsets.only(bottom: 50.0),
+              padding: const EdgeInsets.only(bottom: 5.0),
               child: SizedBox(
-                width: 180,
-                height: 50,
+                width: 200,
+                height: 55,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red[400],
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
+                     shadowColor: Colors.transparent
                   ),
                   onPressed: () {
                     Navigator.push(
@@ -93,18 +94,19 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 50.0),
+            const SizedBox(height: 20.0),
             Padding(
               padding: const EdgeInsets.only(bottom: 50.0),
               child: SizedBox(
-                width: 180,
-                height: 50,
+                width: 200,
+                height: 55,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red[400],
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
+                    shadowColor: Colors.transparent
                   ),
                   onPressed: () {
                     Navigator.push(
