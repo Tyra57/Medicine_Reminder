@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-// THIS PAGE IS DONE BY WANI INTENDED TO DISPLAY THE INPUTS FROM THE FORM
+import 'package:medicinereminder/form/medicationReminderPage.dart';
 
 class DisplayPage extends StatefulWidget {
   const DisplayPage({Key? key});
@@ -10,26 +9,63 @@ class DisplayPage extends StatefulWidget {
 }
 
 class _DisplayPageState extends State<DisplayPage> {
+  void _setReminder() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const MedicationReminderPage()),
+    );
+  }
+
+  void _saveDetails() {
+    // Save the details
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Details Saved'),
+          content: const Text('Your details have been saved.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red[400],
+        title: const Text('Details Display'),
+        actions: [
+          IconButton(
+            onPressed: _setReminder,
+            icon: const Icon(Icons.add_alarm),
+          ),
+          IconButton(
+            onPressed: _saveDetails,
+            icon: const Icon(Icons.save),
+          ),
+        ],
       ),
       body: Container(
-        color: Colors.red[400], 
-        child: const SafeArea(
+        color: Colors.white,
+        /*child: const SafeArea(
           child: SingleChildScrollView(
-            // Content area goes here
             padding: EdgeInsets.all(16.0),
             child: Column(
-              // Content widgets
               children: [
                 // Your content widgets go here
               ],
             ),
           ),
-        ),
+        ),*/
       ),
     );
   }

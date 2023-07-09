@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicinereminder/auth/auth.dart';
 import 'package:medicinereminder/form/calendarpage.dart';
 import 'package:medicinereminder/main.dart';
 
@@ -6,6 +7,41 @@ import 'package:medicinereminder/main.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
+
+  Future<void> _signOut(BuildContext context) async {
+    try {
+      await Auth().signOut();
+     showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Sign Out'),
+            content: const Text('Are you sure you want to sign out?'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Sign Out'),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                    (route) => false,
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      print('Sign-out error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +61,17 @@ class SplashScreen extends StatelessWidget {
             );
           },
         ),
+         actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              _signOut(context);
+            },
+          ),
+        ],
       ),
       body: Container(
         color: Colors.white,
@@ -127,7 +174,6 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             ),
-            //  _signOutButton(),
           ],
         ),
       ),

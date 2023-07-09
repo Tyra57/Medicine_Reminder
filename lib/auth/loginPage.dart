@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:medicinereminder/auth.dart';
-import 'package:medicinereminder/signUpPage.dart';
+import 'package:medicinereminder/auth/auth.dart';
+import 'package:medicinereminder/auth/signUpPage.dart';
 import 'package:medicinereminder/homePage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -27,7 +27,9 @@ class _LoginPageState extends State<LoginPage> {
           email: _controllerEmail.text,
           password: _controllerPassword.text,
         );
-        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login Successful')),
+        );
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const SplashScreen()),
@@ -36,6 +38,9 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           errorMessage = e.message;
         });
+         ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage!)),
+         );
       }
     }
   }
