@@ -29,7 +29,4 @@ class Auth {
     await _firebaseAuth.signOut();
   }
 
-  signInWithEmailAndPassword({required String email, required String password}) {}
-
-  createUserWithEmailAndPassword({required String email, required String password}) {}
 }

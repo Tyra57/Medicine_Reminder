@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:medicinereminder/auth.dart';
 import 'package:medicinereminder/login.dart';
 
@@ -8,38 +7,42 @@ class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
   @override
-  _SignupPageState createState() => _SignupPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
-  final Auth _auth = Auth();
+  //final Auth _auth = Auth();
 
   String? errorMessage = '';
+  bool isSignup = true;
+  bool _isAccountCreated = false;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
-  final TextEditingController _controllerConfirmPassword =
-      TextEditingController();
+  final TextEditingController _controllerConfirmPassword = TextEditingController();
 
   Future<void> createUserWithEmailAndPassword() async {
-    try {
-      await _auth.createUserWithEmailAndPassword(
-        email: _controllerEmail.text,
-        password: _controllerPassword.text,
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
-      );
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
+   if (_formKey.currentState!.validate()) {
+      try {
+        await Auth().createUserWithEmailPassword(
+          email: _controllerEmail.text,
+          password: _controllerPassword.text,
+        );
+        setState(() {
+          _isAccountCreated = true;
+        });
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Account created. Please proceed to login')),
+        );
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          errorMessage = e.message;
+        });
+      }
     }
-  }
-
-  Widget _errorMessage() {
-    return Text(errorMessage == '' ? '' : 'Humm ? $errorMessage');
   }
 
   @override
@@ -61,6 +64,8 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
       body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
         child: Container(
           color:Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -96,16 +101,37 @@ class _SignupPageState extends State<SignupPage> {
                   inputFile(
                     label: "Email",
                     controller: _controllerEmail,
+                    validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        return null;
+                      },
                   ),
                   inputFile(
                     label: "Password",
                     obscureText: true,
                     controller: _controllerPassword,
+                    validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        return null;
+                      },
                   ),
                   inputFile(
                     label: "Confirm Password",
                     obscureText: true,
                     controller: _controllerConfirmPassword,
+                    validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter the confirmation password';
+                        }
+                        if (value != _controllerPassword.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
                   ),
                 ],
               ),
@@ -118,7 +144,9 @@ class _SignupPageState extends State<SignupPage> {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 50,
-                  onPressed: createUserWithEmailAndPassword,
+                  onPressed: isSignup
+                            ? createUserWithEmailAndPassword
+                            : null,
                   color: Colors.red,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -162,6 +190,7 @@ class _SignupPageState extends State<SignupPage> {
             ],
           ),
         ),
+        ),
       ),
     );
   }
@@ -170,6 +199,7 @@ class _SignupPageState extends State<SignupPage> {
     required String label,
     bool obscureText = false,
     required TextEditingController controller,
+    String? Function(String?)? validator,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,9 +213,10 @@ class _SignupPageState extends State<SignupPage> {
           ),
         ),
         const SizedBox(height: 5),
-        TextField(
+        TextFormField(
           obscureText: obscureText,
           controller: controller,
+          validator: validator,
           decoration: const InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             enabledBorder: OutlineInputBorder(
