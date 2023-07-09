@@ -96,7 +96,8 @@ class _NextFormPageState extends State<NextFormPage> {
                       border: InputBorder.none,
                       labelText: 'Frequency',
                       hintText: 'Select medication frequency',
-                      labelStyle: TextStyle(color: Colors.red)
+                      labelStyle: TextStyle(color: Colors.black,
+                      fontWeight: FontWeight.bold)
                     ),
                     value: selectedFrequency,
                     onChanged: (newValue) {
