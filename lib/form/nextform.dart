@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:medicinereminder/displaypage.dart';
-import 'package:medicinereminder/input_field.dart';
+import 'package:medicinereminder/form/displaypage.dart';
+import 'package:medicinereminder/form/input_field.dart';
 
 // THIS PAGE IS DONE BY WANI AS A CONTINUATION FOR THE MEDICATION FORM
 

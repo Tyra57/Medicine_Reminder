@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medicinereminder/input_field.dart';
-import 'package:medicinereminder/nextform.dart';
+import 'package:medicinereminder/form/input_field.dart';
+import 'package:medicinereminder/form/nextform.dart';
 
 // THIS PAGE IS DONE BY WANI AND FUNCTIONING AS FORM TO REGISTER MEDICATION
 

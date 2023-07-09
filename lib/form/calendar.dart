@@ -1,7 +1,7 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:medicinereminder/medicationpage.dart';
+import 'package:medicinereminder/form/medicationpage.dart';
 import 'package:medicinereminder/splashscreen.dart';
 
 // THIS PAGE IS DONE BY WANI AND INTENDED TO DISPLAY THE DATA
