@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medicinereminder/auth.dart';
-import 'package:medicinereminder/login.dart';
+import 'package:medicinereminder/loginPage.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -21,10 +21,11 @@ class _SignupPageState extends State<SignupPage> {
 
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
-  final TextEditingController _controllerConfirmPassword = TextEditingController();
+  final TextEditingController _controllerConfirmPassword =
+      TextEditingController();
 
   Future<void> createUserWithEmailAndPassword() async {
-   if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate()) {
       try {
         await Auth().createUserWithEmailPassword(
           email: _controllerEmail.text,
@@ -35,7 +36,8 @@ class _SignupPageState extends State<SignupPage> {
         });
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Account created. Please proceed to login')),
+          const SnackBar(
+              content: Text('Account created. Please proceed to login')),
         );
       } on FirebaseAuthException catch (e) {
         setState(() {
@@ -66,64 +68,63 @@ class _SignupPageState extends State<SignupPage> {
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
-        child: Container(
-          color:Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          height: MediaQuery.of(context).size.height - 50,
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              const Column(
-                children: <Widget>[
-                  Text(
-                    "Sign up",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black
+          child: Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            height: MediaQuery.of(context).size.height - 50,
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                const Column(
+                  children: <Widget>[
+                    Text(
+                      "Sign up",
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
                     ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    "Create your account here",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.grey,
+                    SizedBox(
+                      height: 15,
                     ),
-                  ),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  inputFile(
-                    label: "Email",
-                    controller: _controllerEmail,
-                    validator: (value) {
+                    Text(
+                      "Create your account here",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    inputFile(
+                      label: "Email",
+                      controller: _controllerEmail,
+                      validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your email';
                         }
                         return null;
                       },
-                  ),
-                  inputFile(
-                    label: "Password",
-                    obscureText: true,
-                    controller: _controllerPassword,
-                    validator: (value) {
+                    ),
+                    inputFile(
+                      label: "Password",
+                      obscureText: true,
+                      controller: _controllerPassword,
+                      validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your password';
                         }
                         return null;
                       },
-                  ),
-                  inputFile(
-                    label: "Confirm Password",
-                    obscureText: true,
-                    controller: _controllerConfirmPassword,
-                    validator: (value) {
+                    ),
+                    inputFile(
+                      label: "Confirm Password",
+                      obscureText: true,
+                      controller: _controllerConfirmPassword,
+                      validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter the confirmation password';
                         }
@@ -132,64 +133,64 @@ class _SignupPageState extends State<SignupPage> {
                         }
                         return null;
                       },
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 1, left: 0.5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  border: const Border(),
-                ),
-                child: MaterialButton(
-                  minWidth: double.infinity,
-                  height: 50,
-                  onPressed: isSignup
-                            ? createUserWithEmailAndPassword
-                            : null,
-                  color: Colors.red,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: const Text(
-                    "Sign up",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                      color: Colors.white,
                     ),
-                  ),
+                  ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Already have an account?",
-                  style: TextStyle(color: Colors.grey[600]),),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
-                        ),
-                      );
-                    },
+                Container(
+                  padding: const EdgeInsets.only(top: 1, left: 0.5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    border: const Border(),
+                  ),
+                  child: MaterialButton(
+                    minWidth: double.infinity,
+                    height: 50,
+                    onPressed: isSignup ? createUserWithEmailAndPassword : null,
+                    color: Colors.red,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
                     child: const Text(
-                      " Sign in",
+                      "Sign up",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 50),
-            ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Already have an account?",
+                      style: TextStyle(color: Colors.grey[600]),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        " Sign in",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 50),
+              ],
+            ),
           ),
-        ),
         ),
       ),
     );

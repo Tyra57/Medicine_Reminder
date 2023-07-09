@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:medicinereminder/form/calendar.dart';
 import 'package:medicinereminder/main.dart';
@@ -15,8 +14,10 @@ class SplashScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios,
-          color: Colors.black,),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
           onPressed: () {
             Navigator.push(
               context,
@@ -30,9 +31,11 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset('assets/medicine.jpg',
-            height: 300,
-            width: 300,),
+            Image.asset(
+              'assets/medicine.jpg',
+              height: 300,
+              width: 300,
+            ),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -40,10 +43,9 @@ class SplashScreen extends StatelessWidget {
                 'Stay on Track with Your Medication Schedule',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 23,
-                  color: Colors.black
-                ),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 23,
+                    color: Colors.black),
               ),
             ),
             const SizedBox(height: 8.0),
@@ -61,8 +63,7 @@ class SplashScreen extends StatelessWidget {
             ),
             const SizedBox(height: 50.0),
             Padding(
-              padding: const EdgeInsets.only(
-                  bottom: 50.0), 
+              padding: const EdgeInsets.only(bottom: 50.0),
               child: SizedBox(
                 width: 180,
                 height: 50,
@@ -82,7 +83,7 @@ class SplashScreen extends StatelessWidget {
                     );
                   },
                   child: const Text(
-                    'Get Started',
+                    'Medication List',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -92,11 +93,42 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             ),
-          //  _signOutButton(),
+            const SizedBox(height: 50.0),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 50.0),
+              child: SizedBox(
+                width: 180,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red[400],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CalendarPage(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Meal Compability',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            //  _signOutButton(),
           ],
         ),
       ),
     );
   }
 }
-

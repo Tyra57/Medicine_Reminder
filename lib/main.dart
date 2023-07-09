@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:medicinereminder/auth.dart';
-import 'package:medicinereminder/login.dart';
-import 'package:medicinereminder/register.dart';
+import 'package:medicinereminder/loginPage.dart';
+import 'package:medicinereminder/signUpPage.dart';
 import 'package:medicinereminder/widget_tree.dart';
 
 Future<void> main() async {

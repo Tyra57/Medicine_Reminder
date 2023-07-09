@@ -2,7 +2,7 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medicinereminder/form/medicationpage.dart';
-import 'package:medicinereminder/splashscreen.dart';
+import 'package:medicinereminder/homePage.dart';
 
 // THIS PAGE IS DONE BY WANI AND INTENDED TO DISPLAY THE DATA
 
@@ -14,7 +14,7 @@ class CalendarPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-         leading: IconButton(
+        leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
@@ -61,10 +61,9 @@ class CalendarPage extends StatelessWidget {
                       const Text(
                         "Today",
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.black
-                        ),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.black),
                       ),
                     ],
                   ),
@@ -99,10 +98,9 @@ class CalendarPage extends StatelessWidget {
               child: const Text(
                 'Medicines',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.black
-                ),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black),
               ),
             ),
           ],
@@ -113,11 +111,10 @@ class CalendarPage extends StatelessWidget {
         height: 70,
         child: FloatingActionButton(
           onPressed: () {
-           Navigator.push(
+            Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    const MedicationPage(), 
+                builder: (context) => const MedicationPage(),
               ),
             );
           },
