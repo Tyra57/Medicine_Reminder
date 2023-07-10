@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // THIS PAGE IS DONE BY WANI AND FUNCTIONING AS THE MAIN DECORATION FOR TEXTFIELD MEDICATION FORM
 
@@ -16,8 +17,8 @@ class InputField extends StatefulWidget {
     required this.hint,
     this.controller,
     this.widget,
-    this.isImageField = false, 
-    this.inputType = TextInputType.text, 
+    this.isImageField = false,
+    this.inputType = TextInputType.text,
   }) : super(key: key);
 
   @override
@@ -29,7 +30,6 @@ class _InputFieldState extends State<InputField> {
   final List<String> dosageUnits = ['mg', 'ml', 'g', 'oz', 'mcg'];
   String selectedDosageUnit = 'mg';
   TextEditingController dosageController = TextEditingController();
-  
 
   @override
   void dispose() {
@@ -51,7 +51,7 @@ class _InputFieldState extends State<InputField> {
               fontSize: 16,
             ),
           ),
-          if (widget.isImageField) 
+          if (widget.isImageField)
             Container(
               margin: const EdgeInsets.only(top: 10),
               child: GridView.count(
@@ -68,7 +68,7 @@ class _InputFieldState extends State<InputField> {
                 ],
               ),
             ),
-          if (!widget.isImageField) 
+          if (!widget.isImageField)
             Container(
               height: 52,
               margin: const EdgeInsets.only(top: 8.0),
@@ -80,10 +80,92 @@ class _InputFieldState extends State<InputField> {
               child: Row(
                 children: [
                   Expanded(
-                    child: widget.title == 'Dosage'
-                        ? Stack(
-                            children: [
-                              TextFormField(
+                    child:
+                        (widget.title == 'Amount' || widget.title == 'Dosage')
+                            ? Stack(
+                                children: [
+                                  TextFormField(
+                                    autofocus: false,
+                                    cursorColor: Colors.red[400],
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black,
+                                    ),
+                                    decoration: InputDecoration(
+                                      hintText: widget.hint,
+                                      hintStyle: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey,
+                                      ),
+                                      focusedBorder: const UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.white,
+                                          width: 0,
+                                        ),
+                                      ),
+                                      enabledBorder: const UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.white,
+                                          width: 0,
+                                        ),
+                                      ),
+                                    ),
+                                    controller: widget.controller,
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter a value';
+                                      }
+                                      final numericValue = num.tryParse(value);
+                                      if (numericValue == null) {
+                                        return 'Please enter a valid number';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0,
+                                      ),
+                                      decoration: const BoxDecoration(
+                                        border: Border(
+                                          left: BorderSide(
+                                            color: Colors.grey,
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                      ),
+                                      child: DropdownButton<String>(
+                                        value: selectedDosageUnit,
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            selectedDosageUnit = newValue!;
+                                          });
+                                        },
+                                        items: dosageUnits
+                                            .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          },
+                                        ).toList(),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : TextFormField(
                                 autofocus: false,
                                 cursorColor: Colors.red[400],
                                 style: const TextStyle(
@@ -100,84 +182,19 @@ class _InputFieldState extends State<InputField> {
                                   ),
                                   focusedBorder: const UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.white, width: 0),
+                                      color: Colors.white,
+                                      width: 0,
+                                    ),
                                   ),
                                   enabledBorder: const UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.white, width: 0),
-                                  ),
-                                ),
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter a value';
-                                  }
-                                  final numericValue = num.tryParse(value);
-                                  if (numericValue == null) {
-                                    return 'Please enter a valid number';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  decoration: const BoxDecoration(
-                                    border: Border(
-                                      left: BorderSide(
-                                          color: Colors.grey, width: 1.0),
+                                      color: Colors.white,
+                                      width: 0,
                                     ),
                                   ),
-                                  child: DropdownButton<String>(
-                                    value: selectedDosageUnit,
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        selectedDosageUnit = newValue!;
-                                      });
-                                    },
-                                    items: dosageUnits
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                  ),
                                 ),
+                                controller: widget.controller,
                               ),
-                            ],
-                          )
-                        : TextFormField(
-                            autofocus: false,
-                            cursorColor: Colors.red[400],
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: widget.hint,
-                              hintStyle: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey,
-                              ),
-                              focusedBorder: const UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.white, width: 0),
-                              ),
-                              enabledBorder: const UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.white, width: 0),
-                              ),
-                            ),
-                            controller: widget.controller,
-                          ),
                   ),
                 ],
               ),
@@ -193,7 +210,7 @@ class _InputFieldState extends State<InputField> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedImage = imagePath;
+          selectedImage = isSelected ? null : imagePath;
         });
       },
       child: Material(

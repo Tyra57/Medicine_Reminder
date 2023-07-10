@@ -1,12 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:medicinereminder/form/displaypage.dart';
+import 'package:medicinereminder/form/calendarpage.dart';
 import 'package:medicinereminder/form/input_field.dart';
 
 // THIS PAGE IS DONE BY WANI AS A CONTINUATION FOR THE MEDICATION FORM
 
 class NextFormPage extends StatefulWidget {
-  const NextFormPage({Key? key}) : super(key: key);
+
+  const NextFormPage(
+      {Key? key,
+      })
+      : super(key: key);
 
   @override
   State<NextFormPage> createState() => _NextFormPageState();
@@ -30,7 +35,7 @@ class _NextFormPageState extends State<NextFormPage> {
     'Morning',
     'Evening',
     'Night',
-  ]; 
+  ];
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -41,9 +46,8 @@ class _NextFormPageState extends State<NextFormPage> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            primaryColor: Colors.red, 
-            colorScheme: const ColorScheme.light(
-                primary: Colors.red), 
+            primaryColor: Colors.red,
+            colorScheme: const ColorScheme.light(primary: Colors.red),
           ),
           child: child!,
         );
@@ -93,12 +97,11 @@ class _NextFormPageState extends State<NextFormPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: DropdownButtonFormField<String>(
                     decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      labelText: 'Frequency',
-                      hintText: 'Select medication frequency',
-                      labelStyle: TextStyle(color: Colors.black,
-                      fontWeight: FontWeight.bold)
-                    ),
+                        border: InputBorder.none,
+                        labelText: 'Frequency',
+                        hintText: 'Select medication frequency',
+                        labelStyle: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold)),
                     value: selectedFrequency,
                     onChanged: (newValue) {
                       setState(() {
@@ -115,7 +118,7 @@ class _NextFormPageState extends State<NextFormPage> {
                 ),
               ),
               const SizedBox(height: 10.0),
-               Container(
+              Container(
                 margin: const EdgeInsets.only(top: 10),
                 child: const Text(
                   'Intake Time',
@@ -166,11 +169,7 @@ class _NextFormPageState extends State<NextFormPage> {
                         value: option,
                         child: Row(
                           children: [
-                            Icon(
-                              icon,
-                              size: 20,
-                              color: Colors.black
-                            ),
+                            Icon(icon, size: 20, color: Colors.black),
                             const SizedBox(width: 8),
                             Text(option),
                           ],
@@ -181,9 +180,10 @@ class _NextFormPageState extends State<NextFormPage> {
                 ),
               ),
               InputField(
-                  title: "Amount", hint: "Enter the quantity",
-                  controller: amountController,
-                  inputType: TextInputType.number,
+                title: "Amount",
+                hint: "Enter the quantity",
+                controller: amountController,
+                inputType: TextInputType.number,
               ),
               Stack(
                 alignment: Alignment.centerRight,
@@ -217,13 +217,23 @@ class _NextFormPageState extends State<NextFormPage> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      await FirebaseFirestore.instance
+                          .collection('medication')
+                          .add({
+                        'Frequency': selectedFrequency,
+                        'Intake Time': selectedIntakeTime,
+                        'amount': amountController.toString(),
+                        'date': _selectedDate,
+                      });
+
+                      // ignore: use_build_context_synchronously
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const DisplayPage(),
+                          builder: (context) => const CalendarPage(),
                         ),
-                      ); 
+                      );
                     },
                     child: const Text(
                       'Add',

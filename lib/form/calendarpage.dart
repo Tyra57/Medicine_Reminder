@@ -3,13 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medicinereminder/form/medicationpage.dart';
 import 'package:medicinereminder/homePage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // THIS PAGE IS DONE BY WANI AND INTENDED TO DISPLAY THE DATA
 
-class CalendarPage extends StatelessWidget {
+class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
+
+  @override
+  State<CalendarPage> createState() => _CalendarPageState();
+}
+
+class _CalendarPageState extends State<CalendarPage> {
+  final CollectionReference _medication =
+      FirebaseFirestore.instance.collection('medication');
+
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -33,7 +44,7 @@ class CalendarPage extends StatelessWidget {
               color: Colors.red[400],
             ),
             onPressed: () {
-              // Add smthing soon
+              // Add something soon
             },
           ),
         ],
@@ -51,19 +62,12 @@ class CalendarPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        DateFormat.yMMMMd().format(DateTime.now()),
+                        DateFormat.yMMMM().format(DateTime.now()),
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.grey,
                         ),
-                      ),
-                      const Text(
-                        "Today",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.black),
                       ),
                     ],
                   ),
@@ -98,11 +102,38 @@ class CalendarPage extends StatelessWidget {
               child: const Text(
                 'Medicines',
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
               ),
             ),
+            StreamBuilder<QuerySnapshot>(
+              stream: _medication.snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                if (streamSnapshot.hasData) {
+                  return Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: streamSnapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final DocumentSnapshot documentSnapshot =
+                            streamSnapshot.data!.docs[index];
+                        return Card(
+                          margin: const EdgeInsets.all(10),
+                        );
+                      },
+                    ),
+                  );
+                } else if (streamSnapshot.hasError) {
+                  return const Text('Error');
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
+
+
           ],
         ),
       ),
