@@ -11,7 +11,6 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
- 
   String? errorMessage = '';
   bool isSignup = true;
   bool _isAccountCreated = false;
@@ -118,6 +117,9 @@ class _SignupPageState extends State<SignupPage> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your password';
+                        }
+                        if (value.length < 5) {
+                          return 'Please enter at least 5 characters';
                         }
                         return null;
                       },
