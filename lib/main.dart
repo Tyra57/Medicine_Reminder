@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:medicinereminder/auth/auth.dart';
+//import 'package:medicinereminder/auth/auth.dart';
 import 'package:medicinereminder/auth/loginPage.dart';
 import 'package:medicinereminder/auth/signUpPage.dart';
-import 'package:medicinereminder/homePage.dart';
+//import 'package:medicinereminder/homePage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           bodyMedium: TextStyle(color: Colors.black),
         ),
       ),
-      home: StreamBuilder(
+    /*  home: StreamBuilder(
         stream: Auth().authStateChanges,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -36,8 +36,9 @@ class MyApp extends StatelessWidget {
             return const HomePage();
           }
         },
-      ),
-    );
+      ),*/
+      home:  HomePage()
+      );
   }
 }
 
