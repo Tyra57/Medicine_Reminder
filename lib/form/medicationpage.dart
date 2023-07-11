@@ -2,22 +2,72 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:medicinereminder/form/input_field.dart';
 import 'package:medicinereminder/form/nextformpage.dart';
+import 'calendarpage.dart';
 
 // THIS PAGE IS DONE BY WANI AND FUNCTIONING AS FORM TO REGISTER MEDICATION
 
 class MedicationPage extends StatefulWidget {
-  const MedicationPage({Key? key}) : super(key: key);
+  final MedicationData? medicationData;
+  final bool isEditing;
+
+  const MedicationPage({
+    Key? key,
+    this.medicationData,
+    this.isEditing = false,
+  }) : super(key: key);
 
   @override
   State<MedicationPage> createState() => _MedicationPageState();
 }
 
 class _MedicationPageState extends State<MedicationPage> {
-  TextEditingController medicationNameController = TextEditingController();
-  String selectedDosageUnit = 'mg';
-  TextEditingController dosageController = TextEditingController();
-  String selectedImage = 'tablet';
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _typeController = TextEditingController();
+  final TextEditingController _dosageController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
 
+  late String selectedFrequency = 'Once Daily';
+  late final DateTime _selectedDate = DateTime.now();
+  late String selectedIntakeTime = 'Anytime';
+  String selectedDosageUnit = 'mg';
+
+  late MedicationData medicationData;
+  String medicationId = '';
+
+  final List<String> dosageUnits = ['mg', 'ml', 'g', 'oz', 'mcg'];
+
+  void saveMedication() async {
+    FirebaseFirestore.instance.collection('medication').add({
+      'name': medicationData.name,
+      'type': medicationData.type,
+      'dosage': medicationData.dosage,
+      'dosageUnit': medicationData.dosageUnit,
+      'amount': medicationData.amount,
+      'frequency': medicationData.frequency,
+      'intakeTime': medicationData.intakeTime,
+      'date': medicationData.date,
+    });
+
+    // Clear the text fields after saving
+    _nameController.clear();
+    _typeController.clear();
+    _dosageController.clear();
+    _amountController.clear();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.medicationData != null) {
+      selectedDosageUnit = widget.medicationData!.dosageUnit;
+      _nameController.text = widget.medicationData!.name;
+      _typeController.text = widget.medicationData!.type;
+      _dosageController.text = widget.medicationData!.dosage;
+    } else {
+      selectedDosageUnit = 'mg';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +91,52 @@ class _MedicationPageState extends State<MedicationPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InputField(
-                  title: "Medication Name", hint: "Enter medication name",
-                  controller: medicationNameController,),
-              const InputField(
-                  title: 'Type',
-                  hint: 'Enter medication type',
-                  isImageField: true,
-                  ),
-              const InputField(
-                title: "Dosage",
-                hint: "Enter dosage",
+                title: "Medication Name",
+                hint: "Enter medication name",
+                controller: _nameController,
               ),
-              const SizedBox(height: 70.0),
+              InputField(
+                title: 'Type',
+                hint: 'Enter medication type',
+                isImageField: true,
+                controller: _typeController,
+              ),
+              Stack(
+                children: [
+                  InputField(
+                    title: "Dosage",
+                    hint: "Enter dosage",
+                    controller: _dosageController,
+                  ),
+                  Positioned(
+                    right: 0,
+                    bottom: 3,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          left: BorderSide(color: Colors.grey, width: 1.0),
+                        ),
+                      ),
+                      child: DropdownButton<String>(
+                        value: selectedDosageUnit,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedDosageUnit = newValue!;
+                          });
+                        },
+                        items: dosageUnits.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 70),
               Padding(
                 padding: const EdgeInsets.only(bottom: 50.0),
                 child: Center(
@@ -66,27 +150,29 @@ class _MedicationPageState extends State<MedicationPage> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                       ),
-                      onPressed: () async {
-                        await FirebaseFirestore.instance.collection('medication').add({
-                          'medicationName': medicationNameController.text,
-                          'dosage': dosageController.toString(),
-                          'dosageUnit': selectedDosageUnit,
-                          'selectedImage': selectedImage,
-                        });
-
-                          // ignore: use_build_context_synchronously
-                          Navigator.push(
+                      onPressed: () {
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const NextFormPage(),
+                            builder: (context) => NextFormPage(
+                              medicationData: MedicationData(
+                                name: _nameController.text,
+                                type: _typeController.text,
+                                dosage: _dosageController.text,
+                                dosageUnit: selectedDosageUnit,
+                                amount: _amountController.text,
+                                frequency: selectedFrequency,
+                                intakeTime: selectedIntakeTime,
+                                date: _selectedDate,
+                              ),
+                              isEditing: true,
+                            ),
                           ),
                         );
                       },
-
-
-                      child: const Text(
-                        'Next',
-                        style: TextStyle(
+                      child: Text(
+                        widget.isEditing ? 'Next' : 'Save',
+                        style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,

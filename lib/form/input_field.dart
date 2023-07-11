@@ -10,6 +10,7 @@ class InputField extends StatefulWidget {
   final Widget? widget;
   final bool isImageField;
   final TextInputType inputType;
+  
 
   const InputField({
     Key? key,
@@ -29,11 +30,11 @@ class _InputFieldState extends State<InputField> {
   String? selectedImage;
   final List<String> dosageUnits = ['mg', 'ml', 'g', 'oz', 'mcg'];
   String selectedDosageUnit = 'mg';
-  TextEditingController dosageController = TextEditingController();
+  final TextEditingController _dosageController = TextEditingController();
 
   @override
   void dispose() {
-    dosageController.dispose();
+    _dosageController.dispose();
     super.dispose();
   }
 
@@ -106,36 +107,14 @@ class _InputFieldState extends State<InputField> {
                       inputFormatters: [
                        if (widget.title == 'Amount' ||
                             widget.title == 'Dosage')
-                           FilteringTextInputFormatter.digitsOnly,
+                           FilteringTextInputFormatter.allow(
+                              RegExp(r'^[\d.,]+$')),
                       ],
                       keyboardType: widget.title == 'Amount' ||  widget.title == 'Dosage'
                           ? TextInputType.number
                           : TextInputType.text,
                     ),
                   ),
-                  if (widget.title == 'Dosage')
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          left: BorderSide(color: Colors.grey, width: 1.0),
-                        ),
-                      ),
-                      child: DropdownButton<String>(
-                        value: selectedDosageUnit,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedDosageUnit = newValue!;
-                          });
-                        },
-                        items: dosageUnits.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
-                    ),
                 ],
               ),
             ),

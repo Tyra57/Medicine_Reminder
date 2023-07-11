@@ -7,10 +7,11 @@ import 'package:medicinereminder/form/input_field.dart';
 // THIS PAGE IS DONE BY WANI AS A CONTINUATION FOR THE MEDICATION FORM
 
 class NextFormPage extends StatefulWidget {
+  final MedicationData medicationData;
+  final bool isEditing;
 
   const NextFormPage(
-      {Key? key,
-      })
+      {Key? key, required this.medicationData, this.isEditing = false})
       : super(key: key);
 
   @override
@@ -18,7 +19,8 @@ class NextFormPage extends StatefulWidget {
 }
 
 class _NextFormPageState extends State<NextFormPage> {
-  TextEditingController amountController = TextEditingController(text: "1");
+  TextEditingController _amountController =
+      TextEditingController(text: "1");
   String selectedFrequency = 'Once Daily';
   DateTime _selectedDate = DateTime.now();
   String selectedIntakeTime = 'Anytime';
@@ -58,6 +60,24 @@ class _NextFormPageState extends State<NextFormPage> {
       setState(() {
         _selectedDate = picked;
       });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.isEditing) {
+      selectedFrequency = widget.medicationData.frequency;
+      selectedIntakeTime = widget.medicationData.intakeTime;
+      _amountController.text = widget.medicationData.amount;
+      _selectedDate = widget.medicationData.date;
+
+    } else {
+       _amountController = TextEditingController(text: "1");
+      selectedFrequency = 'Once Daily';
+      _selectedDate = DateTime.now();
+      selectedIntakeTime = 'Anytime';
     }
   }
 
@@ -182,7 +202,7 @@ class _NextFormPageState extends State<NextFormPage> {
               InputField(
                 title: "Amount",
                 hint: "Enter the quantity",
-                controller: amountController,
+                controller: _amountController,
                 inputType: TextInputType.number,
               ),
               Stack(
@@ -218,14 +238,19 @@ class _NextFormPageState extends State<NextFormPage> {
                       ),
                     ),
                     onPressed: () async {
-                      await FirebaseFirestore.instance
-                          .collection('medication')
-                          .add({
-                        'Frequency': selectedFrequency,
-                        'Intake Time': selectedIntakeTime,
-                        'amount': amountController.toString(),
-                        'date': _selectedDate,
-                      });
+                        await FirebaseFirestore.instance
+                            .collection('medication')
+                            .add({
+                          'name': widget.medicationData.name,
+                          'type': widget.medicationData.type,
+                          'dosage': widget.medicationData.dosage,
+                          'dosageUnit': widget.medicationData.dosageUnit,
+                          'amount': _amountController.text,
+                          'frequency': selectedFrequency,
+                          'intakeTime': selectedIntakeTime,
+                          'date': _selectedDate,
+                        });
+                      
 
                       // ignore: use_build_context_synchronously
                       Navigator.push(
@@ -235,9 +260,9 @@ class _NextFormPageState extends State<NextFormPage> {
                         ),
                       );
                     },
-                    child: const Text(
-                      'Add',
-                      style: TextStyle(
+                    child: Text(
+                      widget.isEditing? 'Add': 'Update',
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,

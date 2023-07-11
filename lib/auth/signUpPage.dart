@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:medicinereminder/auth.dart';
-import 'package:medicinereminder/loginPage.dart';
+import 'package:medicinereminder/auth/auth.dart';
+import 'package:medicinereminder/auth/loginPage.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -11,8 +11,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  //final Auth _auth = Auth();
-
+ 
   String? errorMessage = '';
   bool isSignup = true;
   bool _isAccountCreated = false;
@@ -43,6 +42,9 @@ class _SignupPageState extends State<SignupPage> {
         setState(() {
           errorMessage = e.message;
         });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage!)),
+        );
       }
     }
   }

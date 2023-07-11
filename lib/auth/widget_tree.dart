@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:medicinereminder/auth.dart';
+import 'package:medicinereminder/auth/auth.dart';
 import 'package:medicinereminder/homePage.dart';
-import 'package:medicinereminder/loginPage.dart';
+import 'package:medicinereminder/auth/loginPage.dart';
 
 class WidgetTree extends StatefulWidget {
   const WidgetTree({Key? key}) : super(key: key);
