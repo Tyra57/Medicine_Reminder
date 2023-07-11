@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicinereminder/auth/auth.dart';
+import 'package:medicinereminder/auth/loginPage.dart';
 import 'package:medicinereminder/form/calendarpage.dart';
 import 'package:medicinereminder/main.dart';
 
@@ -57,7 +58,7 @@ class SplashScreen extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
+              MaterialPageRoute(builder: (context) => const LoginPage()),
             );
           },
         ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:medicinereminder/auth/auth.dart';
 import 'package:medicinereminder/auth/loginPage.dart';
 import 'package:medicinereminder/auth/signUpPage.dart';
-import 'package:medicinereminder/auth/widget_tree.dart';
+import 'package:medicinereminder/homePage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         stream: Auth().authStateChanges,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const WidgetTree();
+            return const SplashScreen();
           } else {
             return const HomePage();
           }
