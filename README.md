@@ -2,8 +2,11 @@
 
 ## Group Members
 1. Nik Nurul Fakhriwani binti Nik Azlan (1911480)
-2. Nur Amanina binti Mohd Nubli (2011402)
-3. Nur Athirah binti Zaaba (2011156)
+   - Medication form and database configuration
+3. Nur Amanina binti Mohd Nubli (2011402)
+   - Notification and reminder 
+5. Nur Athirah binti Zaaba (2011156)
+   - User authentication and registration
 
 ## Title 
 ### Medicine Reminder
