@@ -1,22 +1,26 @@
 # Group Project Proposal <br> INFO 4335 MOBILE APPLICATION DEVELOPMENT <br>Section 1<br>SEM 2 2022/2023</br> 
 
-## Group Members
+## Group Members 
 1. Nik Nurul Fakhriwani binti Nik Azlan (1911480)
-2. Nur Amanina binti Mohd Nubli (2011402)
-3. Nur Athirah binti Zaaba (2011156)
+3. Nur Amanina binti Mohd Nubli (2011402)
+5. Nur Athirah binti Zaaba (2011156)
+
+## Task Distribution
+1. Wani: Medication list and database configuration
+3. Amanina: Notification and reminder setting 
+5. Athirah: User authentication and registration
 
 ## Title 
 ### Medicine Reminder
 
 ## Introduction 
-Medication intake can be life-threatening if it relates to high-risk diseases and the users forget to take it at the recommended time set by the doctor. Thus this app will aid in the role of preventing users from missing their medication. It will accept the CRUD operation of user input and set the reminder based on the date and time set by the users. Users can also check if the meal they took is safe to take with the medication, the quantity of daily intake recommended, and the side effects. For example, patients cannot take warfarin (blood clotting medication) with alcohol as it will increase the bleeding risk.
+Medication intake can be life-threatening if it relates to high-risk diseases and the users forget to take it at the recommended time set by the doctor. Thus this app will aid in the role of preventing users from missing their medication. It will accept the CRUD operation of user input and set the reminder based on the date and time set by the users.
 
 ## Objective 
 1. To set reminders to users at the specified times to ensure they take their medication as prescribed.
 
-2. To provide information on which meals or substances can interact negatively with the medication.
+2. To provide flexibility for users to add, edit, delete their medication detail
 
-3. To provide flexibility for users to add, edit ,delete their medication detail
 
 ## Features and Functionalities 
 1. User Registration and Login: <br>
@@ -35,22 +39,25 @@ The app displays the details of each medication on a dedicated page.
 Users can set reminders for each medication, specifying the date, duration, and repeat patterns.
 Reminder settings can be edited or canceled.
 
-4. Meal Compatibility Checker: <br>
-Users can check the compatibility of their medications with specific meals.
-Users input the medication name and meal, and the app provides compatibility results.
-The compatibility results page displays the outcome of the check.
-
-5. User Interface Navigation: <br>
+4. User Interface Navigation: <br>
 The app features a user-friendly interface with buttons and menus to navigate between pages and access various functionalities.
-Users can easily move between the home page, medication list, medication details, compatibility checker, and other relevant sections of the app.
+Users can easily move between the home page, medication list, medication details, and other relevant sections of the app.
 
 ## Navigational Flow 
-![NaviFlow](https://github.com/Tyra57/MedicineReminder/assets/96872015/1b0f0b00-741d-48de-b716-6f1858762504)
+![latest navi flow](https://github.com/Tyra57/Medicine_Reminder/assets/96872015/4df620f3-c558-4880-993c-bd7fc1f1ce67)
+
 
 ## Sequence Diagram 
-
-![SEquence Diagram](https://github.com/Tyra57/MedicineReminder/assets/121510950/9d0bb0db-76b4-47e4-a517-b1330e161dbc)
+![latest sequence diagram](https://github.com/Tyra57/Medicine_Reminder/assets/96872015/5dd71ef1-6e8a-4e74-848b-abb0e036a6eb)
 
 
 ## References 
-* <https://www.markdownguide.org/basic-syntax/> 
+* Markdown Syntax Guide <https://www.markdownguide.org/basic-syntax/> 
+* Pub Dev Package Manager <https://pub.dev/>
+* Flutter Official Documentation <https://flutter.dev/docs>
+* Class Learning Materials by Dr. Muhamad Sadry Abu Seman
+* Flutter Firebase Auth <https://youtu.be/rWamixHIKmQ>
+* Open AI <https://chat.openai.com>
+* Flutter App Using Sqlite & Sqflite CRUD With Local Scheduled Notifications <https://youtu.be/6SaCntGgi5o>
+* UI Medicine Reminder <https://dribbble.com/shots/10735629-Medication-Reminder>
+* Medication Mobile IOS App <https://dribbble.com/shots/21055123-Medication-Mobile-IOS-App>

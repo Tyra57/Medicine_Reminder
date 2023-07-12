@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medicinereminder/auth/auth.dart';
-import 'package:medicinereminder/auth/loginPage.dart';
 import 'package:medicinereminder/form/calendarpage.dart';
 import 'package:medicinereminder/main.dart';
 
@@ -12,7 +11,7 @@ class SplashScreen extends StatelessWidget {
   Future<void> _signOut(BuildContext context) async {
     try {
       await Auth().signOut();
-     showDialog(
+      showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -50,19 +49,7 @@ class SplashScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const LoginPage()),
-            );
-          },
-        ),
-         actions: [
+        actions: [
           IconButton(
             icon: const Icon(
               Icons.logout,
@@ -80,7 +67,7 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset(
-              'assets/medication.jpg',
+              'assets/medicine.jpg',
               height: 300,
               width: 300,
             ),
@@ -109,7 +96,7 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 40.0),
+            const SizedBox(height: 30.0),
             Padding(
               padding: const EdgeInsets.only(bottom: 5.0),
               child: SizedBox(
@@ -117,12 +104,11 @@ class SplashScreen extends StatelessWidget {
                 height: 55,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red[400],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                     shadowColor: Colors.transparent
-                  ),
+                      backgroundColor: Colors.red[400],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      shadowColor: Colors.transparent),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -142,7 +128,6 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20.0),
           ],
         ),
       ),

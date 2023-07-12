@@ -17,28 +17,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: const Color(0xFFEF5350),
-        hintColor: const Color.fromARGB(255, 239, 220, 219),
-        scaffoldBackgroundColor: const Color.fromARGB(255, 239, 220, 219),
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(color: Colors.black),
+        title: 'Welcome',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: const Color(0xFFEF5350),
+          hintColor: const Color.fromARGB(255, 239, 220, 219),
+          scaffoldBackgroundColor: const Color.fromARGB(255, 239, 220, 219),
+          textTheme: const TextTheme(
+            bodyMedium: TextStyle(color: Colors.black),
+          ),
         ),
-      ),
-      // home: StreamBuilder(
-      //   stream: Auth().authStateChanges,
-      //   builder: (context, snapshot) {
-      //     if (snapshot.hasData) {
-      //       return const SplashScreen();
-      //     } else {
-      //       return const HomePage();
-      //     }
-      //   },
-      // ),
-      home: const HomePage(),
-    );
+        /*  home: StreamBuilder(
+        stream: Auth().authStateChanges,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const SplashScreen();
+          } else {
+            return const HomePage();
+          }
+        },
+      ),*/
+        home: HomePage());
   }
 }
 
@@ -81,7 +80,7 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               Image.asset(
-                'assets/medicine.jpg',
+                'assets/pharmacist.jpg',
                 width: 300,
                 height: 300,
               ),
