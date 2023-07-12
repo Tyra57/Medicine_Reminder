@@ -41,8 +41,6 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
                 child: const Text('OK'),
                 onPressed: () {
                   Navigator.pop(context);
-                  // Navigate back to the display page
-                  // You can replace this with your desired route
                   Navigator.pop(context);
                 },
               ),
@@ -198,8 +196,6 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        // Navigate back to the display page without saving
-                        // You can replace this with your desired route
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
