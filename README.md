@@ -1,12 +1,14 @@
 # Group Project Proposal <br> INFO 4335 MOBILE APPLICATION DEVELOPMENT <br>Section 1<br>SEM 2 2022/2023</br> 
 
-## Group Members
+## Group Members 
 1. Nik Nurul Fakhriwani binti Nik Azlan (1911480)
-   - Medication list and database configuration
 3. Nur Amanina binti Mohd Nubli (2011402)
-   - Notification and reminder setting 
 5. Nur Athirah binti Zaaba (2011156)
-   - User authentication and registration
+
+## Task Distribution
+1. Wani: Medication list and database configuration
+3. Amanina: Notification and reminder setting 
+5. Athirah: User authentication and registration
 
 ## Title 
 ### Medicine Reminder
