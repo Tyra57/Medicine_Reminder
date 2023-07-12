@@ -236,12 +236,9 @@ class _CalendarPageState extends State<CalendarPage> {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      MedicationPage(
-                                                    medicationData:
+                                                      MedicationPage(medicationData:
                                                         MedicationData(
-                                                      dosageUnit:
-                                                          documentSnapshot[
-                                                              'dosageUnit'],
+                                                      dosageUnit:documentSnapshot['dosageUnit'],
                                                       name: documentSnapshot[
                                                           'name'],
                                                       //type: documentSnapshot[
