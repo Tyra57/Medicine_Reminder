@@ -52,3 +52,4 @@ Users can easily move between the home page, medication list, medication details
 * Flutter Official Documentation <https://flutter.dev/docs>
 * Class Learning Materials by Dr. Muhamad Sadry Abu Seman
 * Flutter Firebase Auth <https://youtu.be/rWamixHIKmQ>
+* Open AI <https://chat.openai.com>
