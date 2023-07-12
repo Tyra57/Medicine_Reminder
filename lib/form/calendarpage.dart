@@ -239,25 +239,15 @@ class _CalendarPageState extends State<CalendarPage> {
                                                       MedicationPage(
                                                     medicationData:
                                                         MedicationData(
-                                                      dosageUnit:
-                                                          documentSnapshot[
-                                                              'dosageUnit'],
-                                                      name: documentSnapshot[
-                                                          'name'],
+                                                      dosageUnit:documentSnapshot['dosageUnit'],
+                                                      name: documentSnapshot['name'],
                                                       //type: documentSnapshot[
                                                          // 'type'],
-                                                      dosage: documentSnapshot[
-                                                          'dosage'],
-                                                      amount: documentSnapshot[
-                                                          'amount'],
-                                                      frequency:
-                                                          documentSnapshot[
-                                                              'frequency'],
-                                                      intakeTime:
-                                                          documentSnapshot[
-                                                              'intakeTime'],
-                                                      date: (documentSnapshot[
-                                                                  'date']
+                                                      dosage: documentSnapshot['dosage'],
+                                                      amount: documentSnapshot['amount'],
+                                                      frequency:documentSnapshot['frequency'],
+                                                      intakeTime:documentSnapshot['intakeTime'],
+                                                      date: (documentSnapshot['date']
                                                               as Timestamp)
                                                           .toDate(),
                                                       key: documentSnapshot.id,
