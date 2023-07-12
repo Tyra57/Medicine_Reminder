@@ -39,7 +39,8 @@ The app features a user-friendly interface with buttons and menus to navigate be
 Users can easily move between the home page, medication list, medication details, and other relevant sections of the app.
 
 ## Navigational Flow 
-![NaviFlow](https://github.com/Tyra57/MedicineReminder/assets/96872015/1b0f0b00-741d-48de-b716-6f1858762504)
+![latest navi flow](https://github.com/Tyra57/Medicine_Reminder/assets/96872015/4df620f3-c558-4880-993c-bd7fc1f1ce67)
+
 
 ## Sequence Diagram 
 
