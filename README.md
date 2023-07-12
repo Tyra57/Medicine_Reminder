@@ -43,8 +43,7 @@ Users can easily move between the home page, medication list, medication details
 
 
 ## Sequence Diagram 
-
-![SEquence Diagram](https://github.com/Tyra57/MedicineReminder/assets/121510950/9d0bb0db-76b4-47e4-a517-b1330e161dbc)
+![latest sequence diagram](https://github.com/Tyra57/Medicine_Reminder/assets/96872015/5dd71ef1-6e8a-4e74-848b-abb0e036a6eb)
 
 
 ## References 
