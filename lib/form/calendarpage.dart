@@ -2,6 +2,7 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
+import 'package:medicinereminder/form/medicationReminderPage.dart';
 import 'package:medicinereminder/form/medicationpage.dart';
 import 'package:medicinereminder/homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -38,15 +39,14 @@ class _CalendarPageState extends State<CalendarPage> {
     String medicationId = editedMedication['key'];
 
     _medication
+        .doc('medicationDetails')
+        .collection('medication')
         .doc(medicationId)
-        .set(
-          editedMedication,
-          SetOptions(merge: true),
-        )
+        .update(editedMedication)
         .then((_) {
       setState(() {
         int medicationIndex = medicationDetails
-            .indexWhere((medication) => medication['id'] == medicationId);
+            .indexWhere((medication) => medication['key'] == medicationId);
         if (medicationIndex != -1) {
           medicationDetails[medicationIndex] = editedMedication;
         }
@@ -108,7 +108,10 @@ class _CalendarPageState extends State<CalendarPage> {
               color: Colors.red[400],
             ),
             onPressed: () {
-              // Add something soon
+               Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MedicationReminderPage()),
+            );
             },
           ),
         ],

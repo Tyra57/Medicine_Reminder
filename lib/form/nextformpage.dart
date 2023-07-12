@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:medicinereminder/form/calendarpage.dart';
 import 'package:medicinereminder/form/input_field.dart';
 
+import 'medicationReminderPage.dart';
 import 'medicationdata.dart';
 
 // THIS PAGE IS DONE BY WANI AS A CONTINUATION FOR THE MEDICATION FORM
@@ -102,9 +103,9 @@ class _NextFormPageState extends State<NextFormPage> {
       date: _selectedDate,
     );
 
-    widget.updateMedication(
-        editedMedication.toMap()); 
+    widget.updateMedication(editedMedication.toMap());
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +121,19 @@ class _NextFormPageState extends State<NextFormPage> {
             color: Colors.white,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.white,
+            ),
+            onPressed: () {
+               Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MedicationReminderPage()),
+            );
+            },
+          ),],
       ),
       body: Container(
         color: Colors.white,
