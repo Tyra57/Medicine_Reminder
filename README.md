@@ -53,8 +53,11 @@ Users can easily move between the home page, medication list, medication details
 
 ## References 
 * Markdown Syntax Guide <https://www.markdownguide.org/basic-syntax/> 
-* Pub Dev Packakge Manager <https://pub.dev/>
+* Pub Dev Package Manager <https://pub.dev/>
 * Flutter Official Documentation <https://flutter.dev/docs>
 * Class Learning Materials by Dr. Muhamad Sadry Abu Seman
 * Flutter Firebase Auth <https://youtu.be/rWamixHIKmQ>
 * Open AI <https://chat.openai.com>
+* Flutter App Using Sqlite & Sqflite CRUD With Local Scheduled Notifications <https://youtu.be/6SaCntGgi5o>
+* UI Medicine Reminder <https://dribbble.com/shots/10735629-Medication-Reminder>
+* Medication Mobile IOS App <https://dribbble.com/shots/21055123-Medication-Mobile-IOS-App>
