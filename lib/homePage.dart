@@ -80,7 +80,7 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset(
-              'assets/medicine.jpg',
+              'assets/medication.jpg',
               height: 300,
               width: 300,
             ),
@@ -109,7 +109,7 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 30.0),
+            const SizedBox(height: 40.0),
             Padding(
               padding: const EdgeInsets.only(bottom: 5.0),
               child: SizedBox(
@@ -132,7 +132,7 @@ class SplashScreen extends StatelessWidget {
                     );
                   },
                   child: const Text(
-                    'Medication List',
+                    'Get Started',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -143,38 +143,6 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20.0),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 50.0),
-              child: SizedBox(
-                width: 200,
-                height: 55,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red[400],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    shadowColor: Colors.transparent
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CalendarPage(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'Meal Compability',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

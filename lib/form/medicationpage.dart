@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:medicinereminder/form/input_field.dart';
 import 'package:medicinereminder/form/nextformpage.dart';
-import 'calendarpage.dart';
+import 'medicationdata.dart';
 
 // THIS PAGE IS DONE BY WANI AND FUNCTIONING AS FORM TO REGISTER MEDICATION
 
@@ -21,6 +21,9 @@ class MedicationPage extends StatefulWidget {
 }
 
 class _MedicationPageState extends State<MedicationPage> {
+  final CollectionReference _medicationCollection =
+      FirebaseFirestore.instance.collection('medication');
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _typeController = TextEditingController();
   final TextEditingController _dosageController = TextEditingController();
@@ -32,28 +35,8 @@ class _MedicationPageState extends State<MedicationPage> {
   String selectedDosageUnit = 'mg';
 
   late MedicationData medicationData;
-  String medicationId = '';
 
   final List<String> dosageUnits = ['mg', 'ml', 'g', 'oz', 'mcg'];
-
-  void saveMedication() async {
-    FirebaseFirestore.instance.collection('medication').add({
-      'name': medicationData.name,
-      'type': medicationData.type,
-      'dosage': medicationData.dosage,
-      'dosageUnit': medicationData.dosageUnit,
-      'amount': medicationData.amount,
-      'frequency': medicationData.frequency,
-      'intakeTime': medicationData.intakeTime,
-      'date': medicationData.date,
-    });
-
-    // Clear the text fields after saving
-    _nameController.clear();
-    _typeController.clear();
-    _dosageController.clear();
-    _amountController.clear();
-  }
 
   @override
   void initState() {
@@ -62,11 +45,17 @@ class _MedicationPageState extends State<MedicationPage> {
     if (widget.medicationData != null) {
       selectedDosageUnit = widget.medicationData!.dosageUnit;
       _nameController.text = widget.medicationData!.name;
-      _typeController.text = widget.medicationData!.type;
+      //_typeController.text = widget.medicationData!.type;
       _dosageController.text = widget.medicationData!.dosage;
     } else {
       selectedDosageUnit = 'mg';
     }
+  }
+
+  void updateMedication(Map<String, dynamic> editedMedication) {
+    String medicationId = editedMedication['key'];
+
+    _medicationCollection.doc(medicationId).set(editedMedication).then((_) {});
   }
 
   @override
@@ -156,8 +145,9 @@ class _MedicationPageState extends State<MedicationPage> {
                           MaterialPageRoute(
                             builder: (context) => NextFormPage(
                               medicationData: MedicationData(
+                                key: widget.medicationData?.key ?? '',
                                 name: _nameController.text,
-                                type: _typeController.text,
+                                //type: _typeController.text,
                                 dosage: _dosageController.text,
                                 dosageUnit: selectedDosageUnit,
                                 amount: _amountController.text,
@@ -165,7 +155,8 @@ class _MedicationPageState extends State<MedicationPage> {
                                 intakeTime: selectedIntakeTime,
                                 date: _selectedDate,
                               ),
-                              isEditing: true,
+                              isEditing: widget.isEditing,
+                              updateMedication: updateMedication,
                             ),
                           ),
                         );

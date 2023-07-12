@@ -1,4 +1,3 @@
-
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -8,29 +7,9 @@ import 'package:medicinereminder/homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import 'medicationdata.dart';
+
 // THIS PAGE IS DONE BY WANI AND INTENDED TO DISPLAY THE DATA
-
-class MedicationData {
-  final String name;
-  final String type;
-  final String dosage;
-  final String dosageUnit;
-  final String amount;
-  final String frequency;
-  final String intakeTime;
-  final DateTime date;
-
-  MedicationData({
-    required this.dosageUnit,
-    required this.name,
-    required this.type,
-    required this.dosage,
-    required this.amount,
-    required this.frequency,
-    required this.intakeTime,
-    required this.date,
-  });
-}
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
@@ -40,12 +19,68 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  List<Map<String, dynamic>> medicationDetails = [];
+
   final CollectionReference _medication =
       FirebaseFirestore.instance.collection('medication');
 
-  //Method to delete medication from the database
-  void _deleteMedication(String medicationId) {
-    _medication.doc(medicationId).delete();
+  @override
+  void initState() {
+    super.initState();
+    fetchUserDetails();
+  }
+
+  Future<void> _deleteMedication(String medicationId) async {
+    await _medication.doc(medicationId).delete();
+  }
+
+  void updateMedication(Map<String, dynamic> editedMedication) {
+    String medicationId = editedMedication['key'];
+
+    _medication
+        .doc(medicationId)
+        .set(
+          editedMedication,
+          SetOptions(merge: true),
+        )
+        .then((_) {
+      setState(() {
+        int medicationIndex = medicationDetails
+            .indexWhere((medication) => medication['id'] == medicationId);
+        if (medicationIndex != -1) {
+          medicationDetails[medicationIndex] = editedMedication;
+        }
+      });
+      showMessage('Medication updated successfully!');
+    }).catchError((error) {
+      showMessage('Failed to update medication: $error');
+    });
+  }
+
+  void fetchUserDetails() {
+    _medication.get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          Map<dynamic, dynamic>? values =
+              documentSnapshot.data() as Map<dynamic, dynamic>?;
+          if (values != null) {
+            setState(() {
+              medicationDetails.add({
+                ...Map<String, dynamic>.from(values),
+                'id': documentSnapshot.id,
+              });
+            });
+          }
+        }
+      });
+    });
+  }
+
+
+  void showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
@@ -155,7 +190,7 @@ class _CalendarPageState extends State<CalendarPage> {
                               streamSnapshot.data!.docs[index];
                           final MedicationData medicationData = MedicationData(
                             name: documentSnapshot['name'],
-                            type: documentSnapshot['type'],
+                            //type: documentSnapshot['type'],
                             dosage: documentSnapshot['dosage'],
                             dosageUnit: documentSnapshot['dosageUnit'],
                             amount: documentSnapshot['amount'],
@@ -163,6 +198,7 @@ class _CalendarPageState extends State<CalendarPage> {
                             intakeTime: documentSnapshot['intakeTime'],
                             date: (documentSnapshot['date'] as Timestamp)
                                 .toDate(),
+                            key: documentSnapshot.id,
                           );
 
                           return AnimationConfiguration.staggeredList(
@@ -173,7 +209,7 @@ class _CalendarPageState extends State<CalendarPage> {
                               child: FadeInAnimation(
                                 child: Container(
                                   margin: const EdgeInsets.only(
-                                    left: 15,
+                                    left: 10,
                                     right: 15,
                                     top: 25,
                                   ),
@@ -200,12 +236,13 @@ class _CalendarPageState extends State<CalendarPage> {
                                                       MedicationPage(
                                                     medicationData:
                                                         MedicationData(
-                                                      dosageUnit:documentSnapshot[
+                                                      dosageUnit:
+                                                          documentSnapshot[
                                                               'dosageUnit'],
                                                       name: documentSnapshot[
                                                           'name'],
-                                                      type: documentSnapshot[
-                                                          'type'],
+                                                      //type: documentSnapshot[
+                                                         // 'type'],
                                                       dosage: documentSnapshot[
                                                           'dosage'],
                                                       amount: documentSnapshot[
@@ -220,10 +257,16 @@ class _CalendarPageState extends State<CalendarPage> {
                                                                   'date']
                                                               as Timestamp)
                                                           .toDate(),
+                                                      key: documentSnapshot.id,
                                                     ),
                                                   ),
                                                 ),
-                                              );
+                                              ).then((editedMedication) {
+                                                if (editedMedication != null) {
+                                                  updateMedication(
+                                                      editedMedication);
+                                                }
+                                              });
                                             },
                                           ),
                                         ],
@@ -306,7 +349,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                                         'Take ${medicationData.amount}',
                                                       ),
                                                       const SizedBox(width: 3),
-                                                      Text(medicationData.type),
+                                                      //Text(medicationData.type),
                                                       const SizedBox(width: 3),
                                                       Text(medicationData
                                                           .frequency),

@@ -4,23 +4,31 @@ import 'package:intl/intl.dart';
 import 'package:medicinereminder/form/calendarpage.dart';
 import 'package:medicinereminder/form/input_field.dart';
 
+import 'medicationdata.dart';
+
 // THIS PAGE IS DONE BY WANI AS A CONTINUATION FOR THE MEDICATION FORM
 
 class NextFormPage extends StatefulWidget {
   final MedicationData medicationData;
   final bool isEditing;
+  final String? medicationId; 
+  final Function(Map<String, dynamic>) updateMedication; 
 
-  const NextFormPage(
-      {Key? key, required this.medicationData, this.isEditing = false})
-      : super(key: key);
+  const NextFormPage({
+    Key? key,
+    required this.medicationData,
+    this.isEditing = false, this.medicationId, required this.updateMedication,
+  }) : super(key: key);
 
   @override
   State<NextFormPage> createState() => _NextFormPageState();
 }
 
 class _NextFormPageState extends State<NextFormPage> {
-  TextEditingController _amountController =
-      TextEditingController(text: "1");
+  final CollectionReference _medicationCollection =
+      FirebaseFirestore.instance.collection('medication');
+
+  TextEditingController _amountController = TextEditingController(text: "1");
   String selectedFrequency = 'Once Daily';
   DateTime _selectedDate = DateTime.now();
   String selectedIntakeTime = 'Anytime';
@@ -63,6 +71,7 @@ class _NextFormPageState extends State<NextFormPage> {
     }
   }
 
+
   @override
   void initState() {
     super.initState();
@@ -72,13 +81,29 @@ class _NextFormPageState extends State<NextFormPage> {
       selectedIntakeTime = widget.medicationData.intakeTime;
       _amountController.text = widget.medicationData.amount;
       _selectedDate = widget.medicationData.date;
-
     } else {
-       _amountController = TextEditingController(text: "1");
+      _amountController = TextEditingController(text: "1");
       selectedFrequency = 'Once Daily';
       _selectedDate = DateTime.now();
       selectedIntakeTime = 'Anytime';
     }
+  }
+
+  void updateMedication() {
+    final editedMedication = MedicationData(
+      key: widget.medicationData.key,
+      name: widget.medicationData.name,
+      //type: widget.medicationData.type,
+      dosage: widget.medicationData.dosage,
+      dosageUnit: widget.medicationData.dosageUnit,
+      amount: _amountController.text,
+      frequency: selectedFrequency,
+      intakeTime: selectedIntakeTime,
+      date: _selectedDate,
+    );
+
+    widget.updateMedication(
+        editedMedication.toMap()); 
   }
 
   @override
@@ -237,31 +262,38 @@ class _NextFormPageState extends State<NextFormPage> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
-                    onPressed: () async {
-                        await FirebaseFirestore.instance
-                            .collection('medication')
-                            .add({
-                          'name': widget.medicationData.name,
-                          'type': widget.medicationData.type,
-                          'dosage': widget.medicationData.dosage,
-                          'dosageUnit': widget.medicationData.dosageUnit,
-                          'amount': _amountController.text,
-                          'frequency': selectedFrequency,
-                          'intakeTime': selectedIntakeTime,
-                          'date': _selectedDate,
-                        });
-                      
+                   onPressed: () async {
+                      final updatedMedicationData = MedicationData(
+                        key: widget.medicationData.key,
+                        name: widget.medicationData.name,//type: widget.medicationData.type,
+                        dosage: widget.medicationData.dosage,
+                        dosageUnit: widget.medicationData.dosageUnit,
+                        amount: _amountController.text,
+                        frequency: selectedFrequency,
+                        intakeTime: selectedIntakeTime,
+                        date: _selectedDate,
+                      );
 
-                      // ignore: use_build_context_synchronously
+                      if (widget.isEditing) {
+                        await _medicationCollection
+                            .doc(widget.medicationId)
+                            .update(updatedMedicationData.toMap());
+                      } else {
+                        await _medicationCollection
+                            .add(updatedMedicationData.toMap());
+                      }
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CalendarPage(),
+                          builder: (context) => CalendarPage(),
                         ),
                       );
                     },
+
+
                     child: Text(
-                      widget.isEditing? 'Add': 'Update',
+                      widget.isEditing ? 'Update' : 'Add',
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
